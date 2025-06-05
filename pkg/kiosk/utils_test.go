@@ -11,7 +11,7 @@ func TestGenerateURL(t *testing.T) {
 	Convey("Given URL params", t, func() {
 		Convey("Fullscreen Anonymous Login", func() {
 			anURL := GenerateURL("https://play.grafana/com", "full", true, false)
-			So(anURL, ShouldEqual, "https://play.grafana/com?kiosk=1&autofitpanels")
+			So(anURL, ShouldEqual, "https://play.grafana/com?kiosk&autofitpanels")
 		})
 		Convey("TV Mode Anonymous Login", func() {
 			anURL := GenerateURL("https://play.grafana/com", "tv", true, false)
@@ -23,7 +23,7 @@ func TestGenerateURL(t *testing.T) {
 		})
 		Convey("Default Kiosk Anonymous Login", func() {
 			anURL := GenerateURL("https://play.grafana/com", "", false, false)
-			So(anURL, ShouldEqual, "https://play.grafana/com?kiosk=1")
+			So(anURL, ShouldEqual, "https://play.grafana/com?kiosk")
 		})
 		Convey("Default Anonymous Login with autofit", func() {
 			anURL := GenerateURL("https://play.grafana/com", "disabled", true, false)

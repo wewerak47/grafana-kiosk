@@ -20,12 +20,12 @@ func GenerateURL(anURL string, kioskMode string, autoFit bool, isPlayList bool) 
 		parsedQuery.Set("kiosk", "tv") // no sidebar, topnav without buttons
 		log.Printf("KioskMode: TV")
 	case "full": // FULLSCREEN
-		parsedQuery.Set("kiosk", "1") // sidebar and topnav always shown
+		// parsedQuery.Add("kiosk", "") // sidebar and topnav always shown
 		log.Printf("KioskMode: Fullscreen")
 	case "disabled": // FULLSCREEN
 		log.Printf("KioskMode: Disabled")
 	default: // disabled
-		parsedQuery.Set("kiosk", "1") // sidebar and topnav always shown
+		// parsedQuery.Set("kiosk", "1") // sidebar and topnav always shown
 		log.Printf("KioskMode: Fullscreen")
 	}
 	// a playlist should also go inactive immediately
@@ -33,9 +33,17 @@ func GenerateURL(anURL string, kioskMode string, autoFit bool, isPlayList bool) 
 		parsedQuery.Set("inactive", "1")
 	}
 	parsedURI.RawQuery = parsedQuery.Encode()
+
+	if kioskMode == "full" || kioskMode == "" {
+		if len(parsedURI.RawQuery) > 0 {
+			parsedURI.RawQuery += "&kiosk"
+		} else {
+			parsedURI.RawQuery += "kiosk"
+		}
+	}
 	// grafana is not parsing autofitpanels that uses an equals sign, so leave it out
 	if autoFit {
-		if len(parsedQuery) > 0 {
+		if len(parsedURI.RawQuery) > 0 {
 			parsedURI.RawQuery += "&autofitpanels"
 		} else {
 			parsedURI.RawQuery += "autofitpanels"
